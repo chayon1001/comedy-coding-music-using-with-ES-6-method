@@ -1,5 +1,7 @@
 const allPostLoad = async (category) => {
 
+  // console.log(category);
+
 
     // console.log(`https://openapi.programming-hero.com/api/retro-forum/posts${category? `?category=${category}`:''}`)
     // if(category){
@@ -19,7 +21,7 @@ const displayAllPost = (posts) => {
     console.log(posts)
 
     const showPost = document.getElementById("post-container");
-
+    showPost.innerHTML = ''
     posts.forEach((post) => {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -61,15 +63,63 @@ const displayAllPost = (posts) => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4M5 10h14a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7a1 1 0 011-1z" />
                   </svg>
-                  <span>${post.posted_time} Min</span>
+               <span>${post.posted_time} Min</span>
                 </div>
+
+                 <div class="ml-80">
+                    <button onClick="rightSidePost('${post.description}', '${post.view_count}')" class="">
+                        <span class="bg-green-400 rounded-full p-2"><i class="fa-solid fa-house  text-white"></i></span>
+                    </button>
+                 </div>
+
+
               </div>
+
+             
+
             </div>
 
         `
 
         showPost.appendChild(div)
     })
+}
+
+const rightSidePost = (description, view_count) => {
+
+    const displayRight = document.getElementById('markAsReadContainer');
+
+    const div = document.createElement('div');
+
+    div.innerHTML = `
+        <div class ="flex justify-between p-2 lg:p-3 bg-white rounded-xl items-center gap-3">
+            <div class="lg:w-4/5 w-11/12">
+                <p> ${description} </p>
+            </div>
+         <div class="lg:w-1/5 w-4/12 flex justify-end">
+              <p> <i class="fa-regular fa-eye"></i> ${view_count}</p>
+
+             </div>
+        </div>
+
+        
+       
+    `
+
+    displayRight.appendChild(div)
+
+    handleCount();
+}
+
+
+const handleCount = () =>{
+    const prevCount = document.getElementById('markAsReadCounter').innerText;
+    const convertCount = parseInt(prevCount);
+
+    const sum = convertCount + 1;
+
+    document.getElementById('markAsReadCounter').innerText = sum;
+    
 }
 
 allPostLoad();
